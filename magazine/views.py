@@ -34,7 +34,21 @@ def task_b(request):
     return HttpResponse('')
 
 
+def task_c(request):
+    '''
+    в) Написать код python, который выводит в консоль перечень всех товаров. Каждая строка должна содержать следующие данные:
+        название категории товара,
+        наименование товара,
+        цена.
+    По возможности, минимизировать количество обращений к базе данных и количество передаваемых данных
+    '''
 
+    products = Product.objects.select_related('category').values('category__name', 'name', 'price')
+    for p in products:
+        print p
+
+
+    return HttpResponse('')
 
 
 
