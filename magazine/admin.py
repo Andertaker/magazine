@@ -5,10 +5,11 @@ from . models import Category, Product
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_fields = ['name', ]
+    list_display = ['name', ]
 
 class ProductAdmin(admin.ModelAdmin):
-    list_fields = ['category', 'name', 'price']
+    list_display = ['category', 'name', 'price']
+    list_filter = ('category',)
 
 
 admin.site.register(Category, CategoryAdmin)
