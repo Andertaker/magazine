@@ -67,6 +67,29 @@ class Product(DiscountMixin):
     name = models.CharField(u'Наименование товара', max_length=128)
     price = models.DecimalField(u'Цена единицы, руб.', max_digits=10, decimal_places=2)
 
+
+    @property
+    def max_discount(self):
+        discounts = []
+
+        cat_discount = self.category.max_discount
+        discounts.append(cat_discount)
+
+        item_discount = super(Product, self).max_discount
+        discounts.append(item_discount)
+
+        max_discount = None
+        for d in discounts:
+            if d:
+                if not max_discount:
+                    max_discount = d
+                elif d.amount > max_discount.amount:
+                    max_discount = d
+
+        return max_discount
+
+
+
     class Meta:
         ordering = ('category',)
 
