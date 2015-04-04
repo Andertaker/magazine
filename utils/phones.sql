@@ -32,7 +32,15 @@ SELECT
 FROM (SELECT phone, unnest(users) as user_id FROM phones) p
 JOIN items ON (p.user_id = items.user_id AND items.status=1)
 GROUP BY phone
+ORDER BY phone
 
+
+SELECT
+    p.phone, SUM(status) as items_sold, SUM(CASE items.status WHEN 1 THEN 0 ELSE 1 END) as unsold_sold, COUNT(*) as total
+FROM (SELECT phone, unnest(users) as user_id FROM phones) p
+JOIN items ON (p.user_id = items.user_id)
+GROUP BY phone
+ORDER BY phone
 
 
 
