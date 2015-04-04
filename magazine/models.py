@@ -15,11 +15,14 @@ class Discount(models.Model):
     date_begin = models.DateTimeField(u'Дата начала')
     date_end = models.DateTimeField(u'Дата окончания')
 
+    def __unicode__(self):
+        return '"%s" %s%%' % (self.name, self.amount)
+
 
 
 class DiscountMixin(models.Model):
 
-    discounts = GenericRelation(Discount, object_id_field="object_pk")
+    discounts = GenericRelation(Discount, object_id_field="object_id")
 
 #    def get_discounts(self):
 #        return
