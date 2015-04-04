@@ -52,4 +52,14 @@ def task_c(request):
 
 
 
+def discounts(request):
+    c = Category.objects.get(id=4)
+    # print c.discounts.all()
+    print c.max_discount
 
+    p = Product.objects.get(id=5)
+    print p.max_discount
+
+
+
+    return HttpResponse('')
