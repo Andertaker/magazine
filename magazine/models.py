@@ -2,6 +2,16 @@
 from django.db import models
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
+from django.utils import timezone
+
+
+
+
+class ActiveDiscountManager(models.Manager):
+
+    def get_queryset(self):
+        now = timezone.now()
+        return super(ActiveDiscountManager, self).get_queryset().filter(date_begin__lt=now, date_end__gt=now)
 
 
 
@@ -15,6 +25,9 @@ class Discount(models.Model):
     date_begin = models.DateTimeField(u'Дата начала')
     date_end = models.DateTimeField(u'Дата окончания')
 
+    # objects = DiscountManager()
+    active_discounts = ActiveDiscountManager()
+
     def __unicode__(self):
         return '"%s" %s%%' % (self.name, self.amount)
 
@@ -22,10 +35,16 @@ class Discount(models.Model):
 
 class DiscountMixin(models.Model):
 
-    discounts = GenericRelation(Discount, object_id_field="object_id")
+    # discounts = GenericRelation(Discount, object_id_field="object_id")
 
-#    def get_discounts(self):
-#        return
+    @property
+    def discounts(self):
+        item_type = ContentType.objects.get_for_model(self)
+        return Discount.active_discounts.filter(content_type=item_type, object_id=self.pk)
+
+    @property
+    def max_discount(self):
+        return self.discounts.order_by('-amount').first()
 
     class Meta:
         abstract = True
