@@ -62,4 +62,4 @@ def discounts(request):
 
 
 
-    return HttpResponse('')
+    return render_to_response('index.html', {})

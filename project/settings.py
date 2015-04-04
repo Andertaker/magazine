@@ -37,7 +37,9 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'debug_toolbar',
     'magazine',
+
 )
 
 MIDDLEWARE_CLASSES = (
@@ -48,6 +50,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 ROOT_URLCONF = 'project.urls'
@@ -82,4 +85,54 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = '/static/'
+
+TEMPLATE_LOADERS = (
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+)
+TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR, "templates"),
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.core.context_processors.tz",
+    "django.core.context_processors.request",
+    "django.contrib.messages.context_processors.messages",
+)
+
+
+
+
+INTERNAL_IPS = ['127.0.0.1', '::1']
+DEBUG_TOOLBAR_PATCH_SETTINGS = False
+CONFIG_DEFAULTS = {
+    # Toolbar options
+    'RENDER_PANELS': True,
+    'SHOW_COLLAPSED': True,
+    'ENABLE_STACKTRACES': True,
+    'SHOW_TEMPLATE_CONTEXT': False,
+    'RESULTS_CACHE_SIZE': 1,
+
+}
+
+DEBUG_TOOLBAR_PANELS = [
+    'debug_toolbar.panels.versions.VersionsPanel',
+    'debug_toolbar.panels.timer.TimerPanel',
+    'debug_toolbar.panels.settings.SettingsPanel',
+    'debug_toolbar.panels.headers.HeadersPanel',
+    'debug_toolbar.panels.request.RequestPanel',
+    'debug_toolbar.panels.sql.SQLPanel',
+    'debug_toolbar.panels.staticfiles.StaticFilesPanel',
+    # 'debug_toolbar.panels.templates.TemplatesPanel',
+    # 'debug_toolbar.panels.cache.CachePanel',
+    # 'debug_toolbar.panels.signals.SignalsPanel',
+    # 'debug_toolbar.panels.logging.LoggingPanel',
+    # 'debug_toolbar.panels.redirects.RedirectsPanel',
+]
