@@ -88,6 +88,15 @@ class Product(DiscountMixin):
 
         return max_discount
 
+    @property
+    def discount_price(self):
+        d = self.max_discount
+
+        if d:
+            return self.price * (100 - d.amount) / 100
+        else:
+            return self.price
+
 
 
     class Meta:

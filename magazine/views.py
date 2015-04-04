@@ -53,13 +53,17 @@ def task_c(request):
 
 
 def discounts(request):
-    c = Category.objects.get(id=4)
+    # c = Category.objects.get(id=4)
     # print c.discounts.all()
-    print c.max_discount
+    # print c.max_discount
 
-    p = Product.objects.get(id=5)
-    print p.max_discount
+    # p = Product.objects.get(id=5)
+    # print p.max_discount
 
+    products = Product.objects.all()
+    for p in products:
+        # print p.max_discount
+        print "%s ----> %s" % (p.price, p.discount_price)
 
 
     return render_to_response('index.html', {})
