@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'debug_toolbar',
     'magazine',
     'djcelery',
+    'kombu.transport.django',
 
 )
 
@@ -137,3 +138,12 @@ DEBUG_TOOLBAR_PANELS = [
     # 'debug_toolbar.panels.logging.LoggingPanel',
     # 'debug_toolbar.panels.redirects.RedirectsPanel',
 ]
+
+
+CELERY_TASK_SERIALIZER = 'json',
+CELERY_ACCEPT_CONTENT = ['json', ] # ['pickle', 'json', 'msgpack', 'yaml']
+# CELERY_RESULT_SERIALIZER = 'json',
+CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend',
+BROKER_URL = 'django://'
+
+
