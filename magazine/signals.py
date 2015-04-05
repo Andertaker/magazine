@@ -14,7 +14,8 @@ def add_discount_task(sender, instance, **kwargs):
     else:
         apply_discount.apply_async(args=(instance.id,), eta=instance.date_begin)
 
-    apply_discount.apply_async(args=(instance.id,), eta=instance.date_end)
+    if instance.date_end:
+        apply_discount.apply_async(args=(instance.id,), eta=instance.date_end)
 
 
 

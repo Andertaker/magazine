@@ -23,7 +23,7 @@ class Discount(models.Model):
     discount_object = GenericForeignKey('content_type', 'object_id')
 
     date_begin = models.DateTimeField(u'Дата начала')
-    date_end = models.DateTimeField(u'Дата окончания')
+    date_end = models.DateTimeField(u'Дата окончания', blank=True, null=True, default=None)
 
     objects = models.Manager()
     active_discounts = ActiveDiscountManager()
