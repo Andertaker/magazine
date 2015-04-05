@@ -14,6 +14,7 @@ class CategoryAdmin(admin.ModelAdmin):
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('name', 'category', 'price')
     list_filter = ('category',)
+    readonly_fields = ('discount_amount', 'discount_price',)
 
 
 admin.site.register(Category, CategoryAdmin)

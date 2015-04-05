@@ -66,8 +66,16 @@ class Product(DiscountMixin):
     category = models.ForeignKey(Category, verbose_name=u'Категория', related_name="products")
     name = models.CharField(u'Наименование товара', max_length=128)
     price = models.DecimalField(u'Цена единицы, руб.', max_digits=10, decimal_places=2)
-    discount_amount = models.PositiveSmallIntegerField(u'Скидка, %', default=0)
-    discount_price = models.DecimalField(u'Цена со скидкой, руб.', max_digits=10, decimal_places=2)
+    discount_amount = models.PositiveSmallIntegerField(u'Скидка, %', default=0, editable=False)
+    discount_price = models.DecimalField(u'Цена со скидкой, руб.', max_digits=10, decimal_places=2, editable=False)
+
+
+    class Meta:
+        ordering = ('category',)
+
+    def __unicode__(self):
+        return self.name
+
 
     @property
     def max_discount(self):
@@ -90,10 +98,21 @@ class Product(DiscountMixin):
         return max_discount
 
 
+    def recalc_discount_price(self):
+        d = self.max_discount
+        if d:
+            self.discount_amount = d.amount
+            self.discount_price = self.price * (100 - d.amount) / 100
+        else:
+            self.discount_price = self.price
 
 
-    class Meta:
-        ordering = ('category',)
+        return self
 
-    def __unicode__(self):
-        return self.name
+
+    def save(self, *args, **kwargs):
+        self.recalc_discount_price()
+
+        super(Product, self).save(*args, **kwargs)
+
+
