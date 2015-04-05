@@ -37,7 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'debug_toolbar',
+    # 'debug_toolbar',
     'magazine',
     'djcelery',
     'kombu.transport.django',
@@ -52,7 +52,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 ROOT_URLCONF = 'project.urls'
@@ -140,10 +140,10 @@ DEBUG_TOOLBAR_PANELS = [
 ]
 
 
-CELERY_TASK_SERIALIZER = 'json',
+# CELERY_TASK_SERIALIZER = 'json',
 CELERY_ACCEPT_CONTENT = ['json', ] # ['pickle', 'json', 'msgpack', 'yaml']
 # CELERY_RESULT_SERIALIZER = 'json',
-CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend',
+# CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend',
 BROKER_URL = 'django://'
 
 
