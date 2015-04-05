@@ -75,7 +75,7 @@ DATABASES = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -145,5 +145,4 @@ CELERY_ACCEPT_CONTENT = ['json', ] # ['pickle', 'json', 'msgpack', 'yaml']
 # CELERY_RESULT_SERIALIZER = 'json',
 # CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend',
 BROKER_URL = 'django://'
-
 
