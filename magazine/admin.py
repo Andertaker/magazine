@@ -12,7 +12,7 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ['name', ]
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'category', 'price')
+    list_display = ('name', 'category', 'price', 'discount_amount', 'discount_price',)
     list_filter = ('category',)
     readonly_fields = ('discount_amount', 'discount_price',)
 
