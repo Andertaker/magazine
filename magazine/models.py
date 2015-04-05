@@ -67,8 +67,7 @@ class Product(DiscountMixin):
     name = models.CharField(u'Наименование товара', max_length=128)
     price = models.DecimalField(u'Цена единицы, руб.', max_digits=10, decimal_places=2)
     discount_amount = models.PositiveSmallIntegerField(u'Скидка, %', default=0)
-    # makemigrations not see field 'discount_price'
-    price_with_discount = models.DecimalField(u'Цена со скидкой, руб.', max_digits=10, decimal_places=2)
+    discount_price = models.DecimalField(u'Цена со скидкой, руб.', max_digits=10, decimal_places=2)
 
     @property
     def max_discount(self):
@@ -90,14 +89,6 @@ class Product(DiscountMixin):
 
         return max_discount
 
-    @property
-    def discount_price(self):
-        d = self.max_discount
-
-        if d:
-            return self.price * (100 - d.amount) / 100
-        else:
-            return self.price
 
 
 
