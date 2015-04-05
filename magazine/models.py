@@ -25,7 +25,7 @@ class Discount(models.Model):
     date_begin = models.DateTimeField(u'Дата начала')
     date_end = models.DateTimeField(u'Дата окончания')
 
-    # objects = DiscountManager()
+    objects = models.Manager()
     active_discounts = ActiveDiscountManager()
 
     def __unicode__(self):
@@ -66,7 +66,9 @@ class Product(DiscountMixin):
     category = models.ForeignKey(Category, verbose_name=u'Категория', related_name="products")
     name = models.CharField(u'Наименование товара', max_length=128)
     price = models.DecimalField(u'Цена единицы, руб.', max_digits=10, decimal_places=2)
-
+    discount_amount = models.PositiveSmallIntegerField(u'Скидка, %', default=0)
+    # makemigrations not see field 'discount_price'
+    price_with_discount = models.DecimalField(u'Цена со скидкой, руб.', max_digits=10, decimal_places=2)
 
     @property
     def max_discount(self):
