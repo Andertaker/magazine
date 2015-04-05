@@ -3,24 +3,22 @@ from django.utils import timezone
 
 
 from project.celery import app
-from . models import Discount, Product
+from . models import Discount
+from . tasks import apply_discount
 
-
-@app.task(serializer='json')
-def apply_discount(discount_id):
-    discount = Discount.objects.get(id=discount_id)
-
-    p = Product.objects.get(id=discount.object_id)
-    p.discount_amount = discount.amount
-    p.price_with_discount = p.price * (100 - discount.amount) / 100
-    p.save()
 
 
 def add_discount_task(sender, instance, **kwargs):
-    # apply_discount.run(instance)
-    apply_discount.apply_async(args=(instance.id,), eta=timezone.now())
+    if instance.date_begin <= timezone.now():
+        apply_discount.run(instance.id)
+    else:
+        apply_discount.apply_async(args=(instance.id,), eta=instance.date_begin)
+
+    apply_discount.apply_async(args=(instance.id,), eta=instance.date_end)
+
+
 
 
 
 post_save.connect(add_discount_task, Discount)
-post_delete.connect(add_discount_task, Discount)
+# post_delete.connect(delete_discount_task, Discount) # TODO: add discount delete task
