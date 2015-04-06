@@ -67,7 +67,7 @@ class Product(DiscountMixin):
     name = models.CharField(u'Наименование товара', max_length=128)
     price = models.DecimalField(u'Цена единицы, руб.', max_digits=10, decimal_places=2)
     discount_amount = models.PositiveSmallIntegerField(u'Скидка, %', default=0, editable=False)
-    discount_price = models.DecimalField(u'Цена со скидкой, руб.', max_digits=10, decimal_places=2, editable=False)
+    discount_price = models.DecimalField(u'Цена со скидкой, руб.', max_digits=10, decimal_places=2, editable=False, db_index=True)
 
 
     class Meta:
